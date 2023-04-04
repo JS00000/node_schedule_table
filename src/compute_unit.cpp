@@ -25,12 +25,13 @@ bool unit_t::is_finished(){
 }
 
 void unit_t::print_log(){
-    printf("@@================%2d=================@@\n", unit_id);
+    printf("@@=======%2d=======@@\n", unit_id);
     if(is_finished()){printf("job is finished\n");}
     else{printf("job is not finished\n");}
     double utilization = jobs.size() / double(visited.size());
     printf("The utilization is %lf\n", utilization);
-    printf("@@===================================@@\n");
+    printf("\n");
+    // printf("@@===================================@@\n");
 }
 
 void unit_mesh_t::set_size(int _size){
@@ -52,6 +53,7 @@ void unit_mesh_t::init(){
     for(int i = 0; i < size * size; i++){
         mesh[i].init(i);
     }
+    cycles = 1;
 }
 
 void unit_mesh_t::communicate(schedule_item_t item){
@@ -66,6 +68,7 @@ void unit_mesh_t::update(){
     for(int i = 0; i < size * size; i++){
         mesh[i].update();
     }
+    cycles++;
 }
 
 bool unit_mesh_t::check(){
@@ -83,7 +86,7 @@ bool unit_mesh_t::check(){
 }
 
 void unit_mesh_t::print_status(){
-    printf("@@======================================@@\n");
+    printf("@@=======%2d=======@@\n", cycles);
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
             printf("%2d ", mesh[i * size + j].get_job());

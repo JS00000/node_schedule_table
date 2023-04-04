@@ -63,6 +63,7 @@ struct unit_t{
 
 struct unit_mesh_t{
     int size;
+    int cycles;
     vector<unit_t> mesh;
 
     // set the configuration

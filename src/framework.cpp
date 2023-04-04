@@ -1,6 +1,20 @@
-#include "compute_unit.h"
+#include "schedule_algo.h"
+#include <fstream>
 
-void gen_job_table(vector<vector<int>> graph, vector<vector<int>> &job_list){
+void read_file(string in_file_path, vector<vector<int>> &graph){
+    ifstream in_file(in_file_path);
+    int shape_h, shape_w;
+    in_file >> shape_h >> shape_w;
+    graph.resize(shape_h);
+    for(int i = 0; i < shape_h; i++){
+        graph[i].resize(shape_w);
+        for(int j = 0; j < shape_w; j++){
+            in_file >> graph[i][j];
+        }
+    }
+}
+
+void gen_job_table(vector<vector<int>> &graph, vector<vector<int>> &job_list){
     int unit_num = graph.size();
     job_list.resize(unit_num);
     for(int graph_id = 0; graph_id < unit_num; graph_id++){
@@ -39,34 +53,17 @@ bool run(unit_mesh_t &mesh, schedule_table table){
 }
 
 int main(){
-    int size = 2;
+    int size;
     unit_mesh_t mesh;
 
-    vector<vector<int>> job_list(size * size);
-    job_list[0].push_back(0); job_list[0].push_back(1); job_list[0].push_back(3);
-    job_list[1].push_back(1); job_list[1].push_back(3);
-    job_list[2].push_back(1); job_list[2].push_back(2);
-    job_list[3].push_back(2); job_list[3].push_back(3);
+    vector<vector<int>> job_list;
+    vector<vector<int>> graph;
+    read_file("../input/web-Google.txt", graph);
+    size = int(sqrt(graph.size()));
+    gen_job_table(graph, job_list);
 
     schedule_table table;
-    schedule_item_t item(size * size);
-    item[0] = direction::right;
-    item[1] = direction::right;
-    item[2] = direction::right;
-    item[3] = direction::right;
-    table.push_back(item);
-
-    item[0] = direction::down;
-    item[1] = direction::down;
-    item[2] = direction::down;
-    item[3] = direction::down;
-    table.push_back(item);
-
-    item[0] = direction::stall;
-    item[1] = direction::right;
-    item[2] = direction::right;
-    item[3] = direction::right;
-    table.push_back(item);
+    gen_baseline(job_list, table);
 
     config_mesh(job_list, mesh);
     run(mesh, table);   
