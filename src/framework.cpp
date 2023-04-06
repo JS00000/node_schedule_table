@@ -50,7 +50,7 @@ int main(){
 
     vector<vector<int>> job_list;
     vector<vector<int>> graph;
-    read_file("./input/web-Google.txt", graph);
+    read_file("./input/roadNet.txt", graph);
     size = int(sqrt(graph.size()));
     gen_job_table(graph, job_list);
 
