@@ -1,2 +1,3 @@
-./bin/*
-./src/*.txt
+./bin/runner
+./src/baseline.txt
+./src/test.txt
