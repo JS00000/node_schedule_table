@@ -76,4 +76,9 @@ struct unit_mesh_t{
     void update();
     bool check();
     void print_status();
+
+    bool is_finished();
 };
+
+
+void config_mesh(vector<vector<int>> &job_list, unit_mesh_t &mesh);

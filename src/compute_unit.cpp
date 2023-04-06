@@ -1,5 +1,13 @@
 #include "compute_unit.h"
 
+void config_mesh(vector<vector<int>> &job_list, unit_mesh_t &mesh){
+    int size = int(sqrt(job_list.size()));
+    mesh.set_size(size);
+    for(int i = 0; i < size * size; i++){
+        mesh.mesh[i].init_jobs(job_list[i]);
+    }
+}
+
 bool unit_t::is_job(int job_id){
     for(auto job: jobs){
         if(job == job_id){return true;}
@@ -41,7 +49,7 @@ void unit_mesh_t::set_size(int _size){
     for(int i = 0; i < size * size; i++){
         mesh[i].init_unit_id(i);
         mesh[i].init_connections(
-            (i / size) * size + (i - 1) % size,
+            (i / size) * size + (i - 1 + size) % size,
             (i / size) * size + (i + 1) % size,
             (i - size + size * size) % (size * size),
             (i + size + size * size) % (size * size)
@@ -53,7 +61,7 @@ void unit_mesh_t::init(){
     for(int i = 0; i < size * size; i++){
         mesh[i].init(i);
     }
-    cycles = 1;
+    cycles = 0;
 }
 
 void unit_mesh_t::communicate(schedule_item_t item){
@@ -93,4 +101,13 @@ void unit_mesh_t::print_status(){
         }
         printf("\n");
     }
+}
+
+bool unit_mesh_t::is_finished(){
+    for(auto unit: mesh){
+        if(!unit.is_finished()){
+            return false;
+        }
+    }
+    return true;
 }

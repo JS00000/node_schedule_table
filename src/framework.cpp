@@ -26,14 +26,6 @@ void gen_job_table(vector<vector<int>> &graph, vector<vector<int>> &job_list){
     }
 }
 
-void config_mesh(vector<vector<int>> &job_list, unit_mesh_t &mesh){
-    int size = int(sqrt(job_list.size()));
-    mesh.set_size(size);
-    for(int i = 0; i < size * size; i++){
-        mesh.mesh[i].init_jobs(job_list[i]);
-    }
-}
-
 bool run(unit_mesh_t &mesh, schedule_table table){
     mesh.init();
     mesh.print_status();
@@ -58,12 +50,13 @@ int main(){
 
     vector<vector<int>> job_list;
     vector<vector<int>> graph;
-    read_file("../input/web-Google.txt", graph);
+    read_file("./input/web-Google.txt", graph);
     size = int(sqrt(graph.size()));
     gen_job_table(graph, job_list);
 
     schedule_table table;
     gen_baseline(job_list, table);
+    // gen_naive_greedy(job_list, table);
 
     config_mesh(job_list, mesh);
     run(mesh, table);   
