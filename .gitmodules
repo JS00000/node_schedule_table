@@ -1,0 +1,3 @@
+[submodule "src/Parallel-Implementation-Reverse-Cuthill-Mckee-Algorithm"]
+	path = src/Parallel-Implementation-Reverse-Cuthill-Mckee-Algorithm
+	url = https://github.com/JS00000/Parallel-Implementation-Reverse-Cuthill-Mckee-Algorithm.git
