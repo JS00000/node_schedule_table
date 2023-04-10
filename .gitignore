@@ -1,3 +1,8 @@
-./bin/runner
-./src/baseline.txt
-./src/test.txt
+*
+!*.*
+!*/
+input/rand_jobs/*
+input/rcm_jobs/*
+src/*.txt
+src/rcm/
+.vscode/
