@@ -138,13 +138,6 @@ bool gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
                     best_op = i;
                 }
             }
-            if(row == 0){
-                printf("best op: %2d, best gain: %2d\n", best_op, best_gain);
-                for(auto op: candidates[best_op].first){
-                    printf("%2d ", op);
-                }
-                printf("\n");
-            }
             item.insert(item.end(), candidates[best_op].first.begin(), candidates[best_op].first.end());
         }
         table.push_back(item);
@@ -154,7 +147,7 @@ bool gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
             printf("Algorithm Error\n");
             return false;
         }
-        mesh.print_status();
+        // mesh.print_status();
         if(is_row_finished(mesh) && !mesh.is_finished()){
             item.resize(0);
             for(int i = 0; i < unit_num; i++){
@@ -167,7 +160,7 @@ bool gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
                 printf("Algorithm Error\n");
                 return false;
             }
-            mesh.print_status();
+            // mesh.print_status();
         }
     }
     return true;
