@@ -1,8 +1,8 @@
 *
 !*.*
 !*/
-input/rand_jobs/*
-input/rcm_jobs/*
+# input/rand_jobs/*
+# input/rcm_jobs/*
 src/*.txt
 src/rcm/
 .vscode/

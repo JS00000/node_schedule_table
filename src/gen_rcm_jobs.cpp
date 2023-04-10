@@ -148,7 +148,7 @@ void write_rcm_jobs(int* matrix, int size, int grid_rows, int grid_cols, int id,
     FILE* file = fopen(file_name, "w");
     if(file == NULL)
         exit(0);
-
+    fprintf(file, "%d %d\n", grid_size, grid_size);
     for (int gi = 0; gi < grid_size; gi++) {
         // check if any nonezero element is exist
         for (int gj = 0; gj < grid_size; gj++) {

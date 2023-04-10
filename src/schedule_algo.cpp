@@ -29,7 +29,7 @@ bool is_row_finished(unit_mesh_t &mesh){
     return true;
 }
 
-void gen_baseline(vector<vector<int>> &job_list, schedule_table &table){
+bool gen_baseline(vector<vector<int>> &job_list, schedule_table &table){
     int unit_num = job_list.size();
     int size = int(sqrt(unit_num));
     schedule_item_t item;
@@ -54,9 +54,10 @@ void gen_baseline(vector<vector<int>> &job_list, schedule_table &table){
         }
         table.push_back(item);
     }
+    return true;
 }
 
-void gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
+bool gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
     int unit_num = job_list.size();
     int size = int(sqrt(unit_num));
     unit_mesh_t mesh;
@@ -143,8 +144,8 @@ void gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
         mesh.communicate(item);
         mesh.update();
         if(!mesh.check()){
-            printf("Error\n");
-            exit(-1);
+            printf("Algorithm Error\n");
+            return false;
         }
         // mesh.print_status();
         if(is_row_finished(mesh) && !mesh.is_finished()){
@@ -156,10 +157,11 @@ void gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
             mesh.communicate(item);
             mesh.update();
             if(!mesh.check()){
-                printf("Error\n");
-                exit(-1);
+                printf("Algorithm Error\n");
+                return false;
             }
             // mesh.print_status();
         }
     }
+    return true;
 }

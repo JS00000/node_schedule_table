@@ -3,7 +3,7 @@ RCM_SUBMODULE = ./src/Parallel-Implementation-Reverse-Cuthill-Mckee-Algorithm
 all: runner
 
 runner: ./src/schedule_algo.cpp ./src/compute_unit.cpp ./src/framework.cpp
-	g++ ./src/schedule_algo.cpp ./src/compute_unit.cpp ./src/framework.cpp -o ./bin/runner
+	g++ -o ./bin/runner ./src/schedule_algo.cpp ./src/compute_unit.cpp ./src/framework.cpp -std=c++17
 
 run:
 	./bin/runner
