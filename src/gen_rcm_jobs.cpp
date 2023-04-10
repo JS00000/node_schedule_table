@@ -144,7 +144,7 @@ void write_rcm_jobs(int* matrix, int size, int grid_rows, int grid_cols, int id,
     int block_size = ceil(double(size) / (grid_size));
     char file_name[50];
     sprintf(file_name, "%s/jobs_%dx%d_%d.txt", file_path_prefix, grid_size, grid_size, id);
-    printf("write_rcm_jobs -> %s", file_name);
+    printf("write_rcm_jobs -> %s\n", file_name);
     FILE* file = fopen(file_name, "w");
     if(file == NULL)
         exit(0);
@@ -185,13 +185,13 @@ int main(int argc, char const *argv[]) {
         exit(1);
     }
 
-    for (int i = 1; i < 40; i+=4) {
-        double sparsity = 1 - i / 1000.0;
+    for (int i = 1; i < 10; i++) {
+        double sparsity = 1 - i * 4 / 1000.0;
         init_matrix(matrix, SIZE, sparsity);
         R = ReverseCuthillMckee(matrix);
         // generate 4x4 node jobs
         int* new_matrix = reorder(matrix, R, SIZE);
-        char file_path_prefix[20] = "../input/rcm_jobs";
+        char file_path_prefix[20] = "./input/rcm_jobs";
         write_rcm_jobs(new_matrix, SIZE, 4, 4, i, file_path_prefix);
     }
 
