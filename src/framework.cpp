@@ -95,7 +95,7 @@ int main(int argc, char const *argv[]) {
         std::cout << "using algorithm: " << alg << std::endl;
     } else {
         // run benchmark
-        std::map<std::string, std::vector<int> > cycles;
+        std::map<std::string, std::vector<double> > normalized_cycles;
         std::map<std::string, std::vector<double> > utilizations;
 
         int file_cnt = 0;
@@ -124,7 +124,7 @@ int main(int argc, char const *argv[]) {
                         for(int i = 0; i < mesh.size * mesh.size; i++)
                             util += mesh.mesh[i].jobs.size() / double(mesh.mesh[i].visited.size());
                         util /= mesh.size * mesh.size;
-                        cycles[alg.first].push_back(mesh.cycles);
+                        normalized_cycles[alg.first].push_back(double(mesh.cycles) / (mesh.size * mesh.size - 1));
                         utilizations[alg.first].push_back(util);
                         std::cout << mesh.cycles << " " << util << std::endl;
                     }
@@ -137,20 +137,20 @@ int main(int argc, char const *argv[]) {
             std::cout << "\nConclude: \n";
             for (auto alg: Algorithms) {
                 std::cout << "\n" << alg.first << ": \n";
-                if (cycles[alg.first].size() != file_cnt) {
+                if (normalized_cycles[alg.first].size() != file_cnt) {
                     std::cout << "Algorithm error\n";
                 } else {
-                    double avarage_cycle = 0;
-                    for (auto cycle: cycles[alg.first]) {
-                        avarage_cycle += cycle;
+                    double avarage_speedup = 0;
+                    for (auto cycle: normalized_cycles[alg.first]) {
+                        avarage_speedup += cycle;
                     }
-                    avarage_cycle = avarage_cycle / file_cnt;
+                    avarage_speedup = avarage_speedup / file_cnt;
                     double avarage_utilizations = 0;
                     for (auto util: utilizations[alg.first]) {
                         avarage_utilizations += util;
                     }
                     avarage_utilizations = avarage_utilizations / file_cnt;
-                    std::cout << "avarage_cycle: " << avarage_cycle << "\navarage_utilizations: " << avarage_utilizations << std::endl;
+                    std::cout << "avarage_speedup: " << avarage_speedup << "\navarage_utilizations: " << avarage_utilizations << std::endl;
                 }
 
             }
