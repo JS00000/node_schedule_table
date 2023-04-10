@@ -111,7 +111,7 @@ bool gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
                 candidates[2 + i].first[(i + 1) % size] = direction::left;
 
                 // rest
-                for(int col = (i + 2) % size; col != i; col = (col + 2) % size){
+                for(int col = (i + 2) % size; col != i && col != (i + 1) % size && ((col + 1) % size) != i && ((col + 1) % size) != (i + 1) % size; col = (col + 2) % size){
                     cur_job = mesh.mesh[row * size + col].cur_job;
                     dst_unit = mesh.mesh[row * size + col].connections[direction::right];
                     dst_job = mesh.mesh[dst_unit].cur_job;
