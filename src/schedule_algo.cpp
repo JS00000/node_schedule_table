@@ -111,7 +111,7 @@ bool gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
                 candidates[2 + i].first[(i + 1) % size] = direction::left;
 
                 // rest
-                for(int col = (i + 2) % size; col != i; col = (col + 2) % size){
+                for(int col = (i + 2) % size; col != i && col != (i + 1) % size; col = (col + 2) % size){
                     cur_job = mesh.mesh[row * size + col].cur_job;
                     dst_unit = mesh.mesh[row * size + col].connections[direction::right];
                     dst_job = mesh.mesh[dst_unit].cur_job;
@@ -138,6 +138,13 @@ bool gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
                     best_op = i;
                 }
             }
+            if(row == 0){
+                printf("best op: %2d, best gain: %2d\n", best_op, best_gain);
+                for(auto op: candidates[best_op].first){
+                    printf("%2d ", op);
+                }
+                printf("\n");
+            }
             item.insert(item.end(), candidates[best_op].first.begin(), candidates[best_op].first.end());
         }
         table.push_back(item);
@@ -147,7 +154,7 @@ bool gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
             printf("Algorithm Error\n");
             return false;
         }
-        // mesh.print_status();
+        mesh.print_status();
         if(is_row_finished(mesh) && !mesh.is_finished()){
             item.resize(0);
             for(int i = 0; i < unit_num; i++){
@@ -160,7 +167,7 @@ bool gen_naive_greedy(vector<vector<int>> &job_list, schedule_table &table){
                 printf("Algorithm Error\n");
                 return false;
             }
-            // mesh.print_status();
+            mesh.print_status();
         }
     }
     return true;
