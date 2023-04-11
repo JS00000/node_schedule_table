@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
 {
     srand(time(0));
     // grid of size * size
-    for (int size = 2; size <= 4; size++) {
+    for (int size = 2; size <= 8; size++) {
         int size2 = size * size;
         // mw: the max bandwidth of the jobs graph
         for (int mw = 1; mw <= size2; mw++) {

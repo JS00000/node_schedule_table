@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <string.h>
 #include "queue.h"
 #include "functions.h"
 #include "rcm.h"
 
-#define SIZE 500         // number of rows and cols of sparse array
+#define SIZE 512         // number of rows and cols of sparse array
 
 
 int* CuthillMckee(int* matrix) {
@@ -117,6 +118,7 @@ void init_matrix(int* matrix, int size, double sparsity_limit) {
     int non_zeros = (size*size) - (size*size*sparsity_limit);
     int sum = 0, randX=0, randY=0;
 
+    memset(matrix, 0, SIZE * SIZE * sizeof(int));
     // add self loop
     for (int i = 0; i < size; i++) {
         matrix[i*size+i] = 1;
@@ -185,15 +187,18 @@ int main(int argc, char const *argv[]) {
         exit(1);
     }
 
-    for (int i = 1; i < 10; i++) {
-        double sparsity = 1 - i * 4 / 1000.0;
-        init_matrix(matrix, SIZE, sparsity);
-        R = ReverseCuthillMckee(matrix);
-        // generate 4x4 node jobs
-        int* new_matrix = reorder(matrix, R, SIZE);
-        char file_path_prefix[20] = "./input/rcm_jobs";
-        write_rcm_jobs(new_matrix, SIZE, 4, 4, i, file_path_prefix);
+    for (int grid_scale = 2; grid_scale <= 8; grid_scale+=2) {
+        for (int i = 1; i <= grid_scale * grid_scale / 2; i+=grid_scale/2) {
+            double sparsity = 1 - i * 2 / 1000.0;
+            init_matrix(matrix, SIZE, sparsity);
+            R = ReverseCuthillMckee(matrix);
+            // generate 4x4 node jobs
+            int* new_matrix = reorder(matrix, R, SIZE);
+            char file_path_prefix[20] = "./input/rcm_jobs";
+            write_rcm_jobs(new_matrix, SIZE, grid_scale, grid_scale, i, file_path_prefix);
+        }
     }
+
 
     free(matrix);
     free(R);
