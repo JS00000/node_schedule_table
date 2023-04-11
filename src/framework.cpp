@@ -52,7 +52,7 @@ bool run(unit_mesh_t &mesh, schedule_table table, bool verbose = true){
 }
 
 
-typedef bool (*AlgPtr)(vector<vector<int>> &job_list, schedule_table &table);
+typedef bool (*AlgPtr)(vector<vector<int>> &job_list, schedule_table &table, bool verbose);
 
 int main(int argc, char const *argv[]) {
 
@@ -60,6 +60,7 @@ int main(int argc, char const *argv[]) {
     std::map<std::string, AlgPtr> Algorithms;
     Algorithms["baseline"] = gen_baseline;
     Algorithms["greedy"] = gen_naive_greedy;
+    Algorithms["weighted_matching"] = gen_weighted_matching;
 
     if(argc > 1) {
         // run with any parameter will set default data and algorithm
@@ -85,7 +86,7 @@ int main(int argc, char const *argv[]) {
         read_file(filename, graph);
         gen_job_table(graph, job_list);
         schedule_table table;
-        if (!Algorithms[alg](job_list, table)) {
+        if (!Algorithms[alg](job_list, table, true)) {
             std::cout << "Algorithm " << alg << " error" << std::endl;
             return -1;
         }
@@ -114,7 +115,7 @@ int main(int argc, char const *argv[]) {
                     std::cout << alg.first << std::endl;
                     schedule_table table;
                     unit_mesh_t mesh;
-                    if (!alg.second(job_list, table)) {
+                    if (!alg.second(job_list, table, false)) {
                         std::cout << "Algorithm " << alg.first << " on data " << data_file.path() << " error" << std::endl;
                         continue;
                     }
@@ -129,6 +130,7 @@ int main(int argc, char const *argv[]) {
                         std::cout << mesh.cycles << " " << util << std::endl;
                     }
                 }
+                std::cout << std::endl;
             }
         }
         if (file_cnt == 0) {
