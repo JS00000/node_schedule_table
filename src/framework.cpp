@@ -98,6 +98,10 @@ int main(int argc, char const *argv[]) {
         // run benchmark
         std::map<std::string, std::vector<double> > normalized_cycles;
         std::map<std::string, std::vector<double> > utilizations;
+        std::map<std::string, int > wins;
+        for (auto alg: Algorithms) {
+            wins[alg.first] = 0;
+        }
 
         int file_cnt = 0;
         std::string data_path = "./input";
@@ -111,6 +115,8 @@ int main(int argc, char const *argv[]) {
                 read_file(data_file.path(), graph);
                 gen_job_table(graph, job_list);
 
+                int best_cycles = ~0u>>1;
+                std::map<std::string, int > cycles;
                 for (auto alg: Algorithms) {
                     std::cout << alg.first << std::endl;
                     schedule_table table;
@@ -127,9 +133,18 @@ int main(int argc, char const *argv[]) {
                         util /= mesh.size * mesh.size;
                         normalized_cycles[alg.first].push_back(double(mesh.cycles) / (mesh.size * mesh.size - 1));
                         utilizations[alg.first].push_back(util);
+                        cycles[alg.first] = mesh.cycles;
+                        best_cycles = std::min(best_cycles, mesh.cycles);
                         std::cout << mesh.cycles << " " << util << std::endl;
                     }
                 }
+
+                for (auto alg: Algorithms) {
+                    if (cycles[alg.first] == best_cycles) {
+                        wins[alg.first]++;
+                    }
+                }
+
                 std::cout << std::endl;
             }
         }
@@ -137,6 +152,7 @@ int main(int argc, char const *argv[]) {
             std::cout << "Do not found input files\n";
         } else {
             std::cout << "\nConclude: \n";
+            std::cout << "\nTot files: " << file_cnt << std::endl;
             for (auto alg: Algorithms) {
                 std::cout << "\n" << alg.first << ": \n";
                 if (normalized_cycles[alg.first].size() != file_cnt) {
@@ -152,7 +168,9 @@ int main(int argc, char const *argv[]) {
                         avarage_utilizations += util;
                     }
                     avarage_utilizations = avarage_utilizations / file_cnt;
-                    std::cout << "avarage_speedup: " << avarage_speedup << "\navarage_utilizations: " << avarage_utilizations << std::endl;
+                    std::cout << "avarage_speedup: " << avarage_speedup << std::endl;
+                    std::cout << "avarage_utilizations: " << avarage_utilizations << std::endl;
+                    std::cout << "wins: " << wins[alg.first] << std::endl;
                 }
 
             }
