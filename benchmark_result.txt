@@ -5,19 +5,22 @@ Conclude:
 Tot files: 226
 
 baseline: 
-avarage_speedup: 1
-avarage_utilizations: 0.357363
+avarage speedup: 1
+avarage utilizations: 0.357363
 wins: 69
 
 greedy: 
-avarage_speedup: 0.825641
-avarage_utilizations: 0.429792
+avarage speedup: 0.825641
+avarage utilizations: 0.429792
 wins: 58
 
 weighted_matching: 
-avarage_speedup: 0.734078
-avarage_utilizations: 0.505437
+avarage speedup: 0.734078
+avarage utilizations: 0.505437
 wins: 164
+
+mixed strategy avarage speedup: 0.682519
+mixed strategy avarage utilizations: 0.523707
 
 
 
@@ -29,19 +32,22 @@ Conclude:
 Tot files: 3
 
 baseline: 
-avarage_speedup: 1
-avarage_utilizations: 0.50651
+avarage speedup: 1
+avarage utilizations: 0.50651
 wins: 1
 
 greedy: 
-avarage_speedup: 0.844444
-avarage_utilizations: 0.559591
+avarage speedup: 0.844444
+avarage utilizations: 0.559591
 wins: 2
 
 weighted_matching: 
-avarage_speedup: 0.866667
-avarage_utilizations: 0.568803
+avarage speedup: 0.866667
+avarage utilizations: 0.568803
 wins: 1
+
+mixed strategy avarage speedup: 0.733333
+mixed strategy avarage utilizations: 0.632192
 
 
 
@@ -53,19 +59,22 @@ Conclude:
 Tot files: 20
 
 baseline: 
-avarage_speedup: 1
-avarage_utilizations: 0.537407
+avarage speedup: 1
+avarage utilizations: 0.537407
 wins: 12
 
 greedy: 
-avarage_speedup: 0.841111
-avarage_utilizations: 0.681182
+avarage speedup: 0.841111
+avarage utilizations: 0.681182
 wins: 11
 
 weighted_matching: 
-avarage_speedup: 0.94746
-avarage_utilizations: 0.619026
+avarage speedup: 0.94746
+avarage utilizations: 0.619026
 wins: 8
+
+mixed strategy avarage speedup: 0.74381
+mixed strategy avarage utilizations: 0.719768
 
 
 
@@ -77,16 +86,19 @@ Conclude:
 Tot files: 203
 
 baseline: 
-avarage_speedup: 1
-avarage_utilizations: 0.33742
+avarage speedup: 1
+avarage utilizations: 0.33742
 wins: 56
 
 greedy: 
-avarage_speedup: 0.823839
-avarage_utilizations: 0.403107
+avarage speedup: 0.823839
+avarage utilizations: 0.403107
 wins: 45
 
 weighted_matching: 
-avarage_speedup: 0.711095
-avarage_utilizations: 0.493309
+avarage speedup: 0.711095
+avarage utilizations: 0.493309
 wins: 155
+
+mixed strategy avarage speedup: 0.675729
+mixed strategy avarage utilizations: 0.502787

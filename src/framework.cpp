@@ -156,27 +156,55 @@ int main(int argc, char const *argv[]) {
         } else {
             std::cout << "\nConclude: \n";
             std::cout << "\nTot files: " << file_cnt << std::endl;
+
+            std::vector<double> mixed_speedup(file_cnt, 1);
+            std::vector<double> mixed_utilizations(file_cnt, 1);
+
             for (auto alg: Algorithms) {
                 std::cout << "\n" << alg.first << ": \n";
                 if (normalized_cycles[alg.first].size() != file_cnt) {
                     std::cout << "Algorithm error\n";
                 } else {
                     double avarage_speedup = 0;
-                    for (auto cycle: normalized_cycles[alg.first]) {
-                        avarage_speedup += cycle;
+                    double avarage_utilizations = 0;
+                    for (int i = 0; i < file_cnt; i++) {
+                        double speedup = normalized_cycles[alg.first][i];
+                        avarage_speedup += speedup;
+                        double util = utilizations[alg.first][i];
+                        avarage_utilizations += util;
+
+                        int strategy_flag = 0;
+                        if (mixed_speedup[i] > speedup) {
+                            mixed_speedup[i] = speedup;
+                            strategy_flag = 1;
+                        } else if (mixed_speedup[i] == speedup) {
+                            strategy_flag = 2;
+                        }
+                        if (strategy_flag == 1) {
+                            mixed_utilizations[i] = util;
+                        } else if (strategy_flag == 2) {
+                            // Here min instead of max, because when speedup is the same, the lower the utilization rate, the lower the energy consumption. 
+                            mixed_utilizations[i] = std::min(mixed_utilizations[i], util);
+                        }
                     }
                     avarage_speedup = avarage_speedup / file_cnt;
-                    double avarage_utilizations = 0;
-                    for (auto util: utilizations[alg.first]) {
-                        avarage_utilizations += util;
-                    }
                     avarage_utilizations = avarage_utilizations / file_cnt;
-                    std::cout << "avarage_speedup: " << avarage_speedup << std::endl;
-                    std::cout << "avarage_utilizations: " << avarage_utilizations << std::endl;
+
+                    std::cout << "avarage speedup: " << avarage_speedup << std::endl;
+                    std::cout << "avarage utilizations: " << avarage_utilizations << std::endl;
                     std::cout << "wins: " << wins[alg.first] << std::endl;
                 }
-
             }
+            double mixed_avarage_speedup = 0;
+            double mixed_avarage_utilizations = 0;
+            for (int i = 0; i < file_cnt; i++) {
+                mixed_avarage_speedup += mixed_speedup[i];
+                mixed_avarage_utilizations += mixed_utilizations[i];
+            }
+            mixed_avarage_speedup /= file_cnt;
+            mixed_avarage_utilizations /= file_cnt;
+            std::cout << "\nmixed strategy avarage speedup: " << mixed_avarage_speedup << std::endl;
+            std::cout << "mixed strategy avarage utilizations: " << mixed_avarage_utilizations << std::endl;
         }
     }
 
