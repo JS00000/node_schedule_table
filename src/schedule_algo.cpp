@@ -203,21 +203,21 @@ public:
         return -1;
     }
 
-    // int dist(int x1, int y1, int x2, int y2) {
-    //     int dx = abs(x1 - x2);
-    //     int dy = abs(y1 - y2);
-    //     dx = min(dx, gn - dx);
-    //     dy = min(dy, gn - dy);
-    //     return dx + dy;
-    // }
+    int dist(int x1, int y1, int x2, int y2) {
+        int dx = abs(x1 - x2);
+        int dy = abs(y1 - y2);
+        dx = min(dx, gn - dx);
+        dy = min(dy, gn - dy);
+        return dx + dy;
+    }
 
-    // int get_shortest_dist(int id, int target) {
-    //     int x1 = id / gn;
-    //     int y1 = id % gn;
-    //     int x2 = target / gn;
-    //     int y2 = target % gn;
-    //     return dist(x1, y1, x2, y2);
-    // }
+    int get_shortest_dist(int id, int target) {
+        int x1 = id / gn;
+        int y1 = id % gn;
+        int x2 = target / gn;
+        int y2 = target % gn;
+        return dist(x1, y1, x2, y2);
+    }
 
     int get_delta(int x1, int x2) {
         int dx = x2 - x1;
@@ -249,11 +249,10 @@ public:
             else return 4;          // down
         } else {
             // adx = ady
-            // preference, this can be adjust
-            if (dx < 0 && dy < 0) return 1;         //up or left
-            else if (dx < 0 && dy > 0) return 2;    //up or right
-            else if (dx > 0 && dy < 0) return 1;    //down or left
-            else if (dx > 0 && dy > 0) return 2;    //down or right
+            if (dx < 0 && dy < 0) return 5;         //up or left
+            else if (dx < 0 && dy > 0) return 6;    //up or right
+            else if (dx > 0 && dy < 0) return 7;    //down or left
+            else if (dx > 0 && dy > 0) return 8;    //down or right
         }
         // must not reach here
         return -1;
@@ -292,6 +291,7 @@ public:
                 cost[id][2] = 10000;
                 cost[id][3] = 10000;
                 cost[id][4] = 10000;
+                // deal adjacent node
                 bool is_adj = false;
                 for (int dir = 1; dir <= 4; dir++) {
                     int id_adj = get_next_id(id, dir);
@@ -300,15 +300,83 @@ public:
                         cost[id][dir] = n - graph_unvisited[i].size();
                     }
                 }
+                
+                // otherwise go to nearest unvisited node
                 if (!is_adj) {
-                    int mini_id = infi;
+                    int nearest_id;
+                    int nearest_dist = infi;
                     for (auto it: graph_unvisited[i]) {
-                        mini_id = std::min(mini_id, it);
+                        int dist = get_shortest_dist(id, it);
+                        if (dist < nearest_dist) {
+                            nearest_dist = dist;
+                            nearest_id = it;
+                        }
                     }
-                    int dir = get_dir(id, mini_id);
-                    cost[id][dir] = 100;
-                    cost[id][op(dir)] = 100000;
+                    int dir = get_dir(id, nearest_id);
+                    if (dir <= 4) {
+                        cost[id][dir] = n*n - get_shortest_dist(id, nearest_id);
+                        cost[id][op(dir)] = 100000;
+                    } else {
+                        int cc = n*n - get_shortest_dist(id, nearest_id);
+                        if (dir == 5) {         //up or left
+                            cost[id][1] = cc;
+                            cost[id][2] = 100000;
+                            cost[id][3] = cc;
+                            cost[id][4] = 100000;
+                        } else if (dir == 6) {  //up or right
+                            cost[id][1] = 100000;
+                            cost[id][2] = cc;
+                            cost[id][3] = cc;
+                            cost[id][4] = 100000;
+                        } else if (dir == 7) {  //down or left
+                            cost[id][1] = cc;
+                            cost[id][2] = 100000;
+                            cost[id][3] = 100000;
+                            cost[id][4] = cc;
+                        } else if (dir == 8) {  //down or right
+                            cost[id][1] = 100000;
+                            cost[id][2] = cc;
+                            cost[id][3] = 100000;
+                            cost[id][4] = cc;
+                        }
+                    }
                 }
+
+                // otherwise go to the unvisited node with the minimum id
+                // if (!is_adj) {
+                //     int mini_id = infi;
+                //     for (auto it: graph_unvisited[i]) {
+                //         mini_id = std::min(mini_id, it);
+                //     }
+                //     int dir = get_dir(id, mini_id);
+                //     if (dir <= 4) {
+                //         cost[id][dir] = n*n - get_shortest_dist(id, mini_id);
+                //         cost[id][op(dir)] = 100000;
+                //     } else {
+                //         int cc = n*n - get_shortest_dist(id, mini_id);
+                //         if (dir == 5) {         //up or left
+                //             cost[id][1] = cc;
+                //             cost[id][2] = 100000;
+                //             cost[id][3] = cc;
+                //             cost[id][4] = 100000;
+                //         } else if (dir == 6) {  //up or right
+                //             cost[id][1] = 100000;
+                //             cost[id][2] = cc;
+                //             cost[id][3] = cc;
+                //             cost[id][4] = 100000;
+                //         } else if (dir == 7) {  //down or left
+                //             cost[id][1] = cc;
+                //             cost[id][2] = 100000;
+                //             cost[id][3] = 100000;
+                //             cost[id][4] = cc;
+                //         } else if (dir == 8) {  //down or right
+                //             cost[id][1] = 100000;
+                //             cost[id][2] = cc;
+                //             cost[id][3] = 100000;
+                //             cost[id][4] = cc;
+                //         }
+                //     }
+                // }
             }
         }
 
@@ -421,7 +489,7 @@ bool gen_weighted_matching(std::vector<std::vector<int>> &job_list, schedule_tab
         }
 
 
-        if (mesh.cycles >= n*10) {
+        if (mesh.cycles >= n*n) {
             printf("Algorithm may stuck in an endless loop\n");
             return false;
         }
