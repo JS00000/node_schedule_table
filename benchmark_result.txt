@@ -1,3 +1,5 @@
+./bin/runner
+...
 Conclude: 
 
 Tot files: 226
@@ -16,3 +18,75 @@ weighted_matching:
 avarage_speedup: 0.734078
 avarage_utilizations: 0.505437
 wins: 164
+
+
+
+
+./bin/runner ./input/standard_jobs
+...
+Conclude: 
+
+Tot files: 3
+
+baseline: 
+avarage_speedup: 1
+avarage_utilizations: 0.50651
+wins: 1
+
+greedy: 
+avarage_speedup: 0.844444
+avarage_utilizations: 0.559591
+wins: 2
+
+weighted_matching: 
+avarage_speedup: 0.866667
+avarage_utilizations: 0.568803
+wins: 1
+
+
+
+
+./bin/runner ./input/rcm_jobs
+...
+Conclude: 
+
+Tot files: 20
+
+baseline: 
+avarage_speedup: 1
+avarage_utilizations: 0.537407
+wins: 12
+
+greedy: 
+avarage_speedup: 0.841111
+avarage_utilizations: 0.681182
+wins: 11
+
+weighted_matching: 
+avarage_speedup: 0.94746
+avarage_utilizations: 0.619026
+wins: 8
+
+
+
+
+./bin/runner ./input/rand_jobs
+...
+Conclude: 
+
+Tot files: 203
+
+baseline: 
+avarage_speedup: 1
+avarage_utilizations: 0.33742
+wins: 56
+
+greedy: 
+avarage_speedup: 0.823839
+avarage_utilizations: 0.403107
+wins: 45
+
+weighted_matching: 
+avarage_speedup: 0.711095
+avarage_utilizations: 0.493309
+wins: 155
