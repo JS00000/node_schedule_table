@@ -297,7 +297,7 @@ public:
                     int id_adj = get_next_id(id, dir);
                     if ( graph_unvisited[i].count(id_adj) ) {
                         is_adj = true;
-                        cost[id][dir] = 0;
+                        cost[id][dir] = n - graph_unvisited[i].size();
                     }
                 }
                 if (!is_adj) {
@@ -440,5 +440,7 @@ bool gen_weighted_matching(std::vector<std::vector<int>> &job_list, schedule_tab
         }
         table.push_back(item);
     }
+    if (verbose) 
+        mesh.print_status();
     return true;
 }
