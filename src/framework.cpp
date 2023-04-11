@@ -62,7 +62,7 @@ int main(int argc, char const *argv[]) {
     Algorithms["greedy"] = gen_naive_greedy;
     Algorithms["weighted_matching"] = gen_weighted_matching;
 
-    if(argc > 1) {
+    if (argc > 2) {
         // run with any parameter will set default data and algorithm
         string filename = "./input/roadNet.txt";
         string alg = "baseline";
@@ -96,6 +96,10 @@ int main(int argc, char const *argv[]) {
         std::cout << "using algorithm: " << alg << std::endl;
     } else {
         // run benchmark
+        std::string data_path = "./input";
+        if (argc == 2) {
+            data_path = argv[1];
+        }
         std::map<std::string, std::vector<double> > normalized_cycles;
         std::map<std::string, std::vector<double> > utilizations;
         std::map<std::string, int > wins;
@@ -104,7 +108,6 @@ int main(int argc, char const *argv[]) {
         }
 
         int file_cnt = 0;
-        std::string data_path = "./input";
         // for (auto const& data_file : std::filesystem::directory_iterator(data_path)) {
         for (auto const& data_file : std::filesystem::recursive_directory_iterator(data_path)) {
             if (!fs::is_directory(data_file)) {
