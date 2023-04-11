@@ -64,7 +64,7 @@ int main(int argc, char const *argv[]) {
 
     if (argc > 2) {
         // run with any parameter will set default data and algorithm
-        string filename = "./input/roadNet.txt";
+        string filename = "./input/standard_jobs/roadNet.txt";
         string alg = "baseline";
         // parsing parameters 
         for(int i = 1; i < argc; i += 2) {
