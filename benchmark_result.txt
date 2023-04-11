@@ -1,0 +1,18 @@
+Conclude: 
+
+Tot files: 226
+
+baseline: 
+avarage_speedup: 1
+avarage_utilizations: 0.357363
+wins: 69
+
+greedy: 
+avarage_speedup: 0.825641
+avarage_utilizations: 0.429792
+wins: 58
+
+weighted_matching: 
+avarage_speedup: 0.734078
+avarage_utilizations: 0.505437
+wins: 164
